@@ -1,0 +1,13 @@
+const menuBtn=document.querySelector('.menu-btn'),nav=document.querySelector('.nav');
+const setMenu=o=>{nav.classList.toggle('mobile-open',o);menuBtn.classList.toggle('open',o);menuBtn.setAttribute('aria-expanded',o);document.body.style.overflow=o?'hidden':''};
+menuBtn.onclick=()=>setMenu(!nav.classList.contains('mobile-open'));
+nav.querySelectorAll('a').forEach(a=>a.onclick=()=>setMenu(false));
+document.onkeydown=e=>{if(e.key==='Escape')setMenu(false)};
+addEventListener('resize',()=>{if(innerWidth>700)setMenu(false)});
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show')}),{threshold:.12});
+document.querySelectorAll('.service,.review-grid article,.stats div,.story-text,.gallery-item').forEach(e=>{e.classList.add('reveal');obs.observe(e)});
+document.querySelectorAll('.gallery-item').forEach(item=>item.addEventListener('click',()=>{document.querySelector('#lightbox img').src=item.querySelector('img').src;document.querySelector('#lightbox').classList.add('active')}));
+document.querySelector('#lightbox').addEventListener('click',()=>document.querySelector('#lightbox').classList.remove('active'));
+const theme=document.querySelector('#theme');theme.onclick=()=>{document.body.classList.toggle('light');localStorage.setItem('noir-theme',document.body.classList.contains('light')?'light':'dark')};
+if(localStorage.getItem('noir-theme')==='light')document.body.classList.add('light');
+document.querySelectorAll('.book-btn').forEach(b=>b.onclick=()=>{document.querySelector('#kontakt').scrollIntoView({behavior:'smooth'});setTimeout(()=>document.querySelector('#name')?.focus(),500)});
